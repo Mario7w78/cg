@@ -45,7 +45,7 @@ export class Horario {
 
   coloracion() {
     for (let i = 0; i < this.h.length; i++) {
-      // Obtener los colores usados por los vecinos del curso i
+      
       const coloresUsados = new Set();
 
       for (let j = 0; j < this.h.length; j++) {
@@ -54,7 +54,7 @@ export class Horario {
         }
       }
 
-      // Asignar el color más pequeño posible que no esté en coloresUsados
+      
       let color = 1;
       while (coloresUsados.has(color)) {
         color++;
