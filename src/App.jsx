@@ -14,6 +14,7 @@ function App() {
       const h = new Horario(cantidad);
       setHorario(h.getHorario);
       setGrafo(h);
+      setCursos([])
     }
   }, [cantidad]);
 
