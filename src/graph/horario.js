@@ -46,15 +46,18 @@ export class Horario {
   coloracion() {
     for (let i = 0; i < this.h.length; i++) {
       
+      //colores adyacentes del nodo
       const coloresUsados = new Set();
 
+      //verificar si los vecinos tienen colores
+      //si es asi se guarda en el set  
       for (let j = 0; j < this.h.length; j++) {
         if (this.h[i][j] === 1 && this.cursos[j].getColor !== 0) {
           coloresUsados.add(this.cursos[j].getColor);
         }
       }
 
-      
+      //agregar color
       let color = 1;
       while (coloresUsados.has(color)) {
         color++;
