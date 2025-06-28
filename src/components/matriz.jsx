@@ -4,7 +4,7 @@ export const Matriz = ({ horario, nombres }) => {
       <table className="w-[50vw] border-1 p-2 border-collapse">
         <thead>
           <tr className="border-b bg-orange-300">
-            <th className="border-r">Horario</th>
+            <th className="border-r"></th>
             {horario.map((_, i) => (
               <th>{nombres[i].nombre.substr(0, 1)}</th>
             ))}

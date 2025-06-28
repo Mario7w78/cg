@@ -22,22 +22,27 @@ export const Horarios = ({ listaEstudiantes }) => {
   const dias = ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes"];
 
   const colores = [
-    "#3B82F6",
-    "#EF4444",
-    "#10B981",
-    "#F59E0B",
-    "#8B5CF6",
-    "#F97316",
-    "#06B6D4",
-    "#84CC16",
-    "#F472B6",
-    "#6366F1",
+    "#3B82F6", "#EF4444", "#10B981", "#F59E0B", "#8B5CF6",
+    "#F97316", "#06B6D4", "#84CC16", "#F472B6", "#6366F1",
   ];
 
   const handleSeleccion = (e) => {
-    const id = e.target.value;
-    const estudiante = listaEstudiantes.find((est) => est.nombre === id);
+    const nombre = e.target.value;
+    const estudiante = listaEstudiantes.find((est) => est.nombre === nombre);
     setEstudianteSeleccionado(estudiante);
+  };
+
+  // Mapea por celda qué curso va en cada día/hora
+  const obtenerCursoEnCelda = (dia, hora) => {
+    if (!estudianteSeleccionado) return null;
+
+    for (let curso of estudianteSeleccionado.cursos) {
+      const sesion = curso.sesiones[0];
+      if (sesion && sesion.dia === dia && sesion.inicio === hora) {
+        return curso;
+      }
+    }
+    return null;
   };
 
   return (
@@ -45,7 +50,7 @@ export const Horarios = ({ listaEstudiantes }) => {
       <select
         name="listaEstudiantes"
         onChange={handleSeleccion}
-        className="mb-4 border p-1"
+        className="mb-4"
       >
         <option value="">Seleccionar un estudiante</option>
         {listaEstudiantes.map((est, idx) => (
@@ -55,53 +60,36 @@ export const Horarios = ({ listaEstudiantes }) => {
         ))}
       </select>
 
-      <table className="w-[80vw] border border-gray-400 border-collapse text-sm ">
+      <table className="w-[90vw] border border-gray-400 border-collapse text-sm">
         <thead>
           <tr>
-            <th className="border px-2 py-1">Hora / Día</th>
+            <th className="border px-2 py-1 bg-gray-200">Hora / Día</th>
             {dias.map((dia, idx) => (
-              <th key={idx} className="border px-2 py-1 ">
+              <th key={idx} className="border px-2 py-1 bg-gray-200">
                 {dia}
               </th>
             ))}
           </tr>
         </thead>
-        <tbody className="text-center ">
-          {franjas.map((franja, fIdx) => (
-            <tr key={fIdx}>
-              <td className="border px-2 py-1 font-medium">{franja}</td>
-              {dias.map((dia, dIdx) => {
-                const curso = estudianteSeleccionado?.cursos?.find((c) =>
-                  c.sesiones.some((s) => s.dia === dia && s.inicio === fIdx)
+        <tbody className="text-center">
+          {franjas.map((franjaTexto, filaIdx) => (
+            <tr key={filaIdx}>
+              <td className="border px-2 py-1 font-medium">{franjaTexto}</td>
+              {dias.map((dia, colIdx) => {
+                const curso = obtenerCursoEnCelda(dia, filaIdx);
+                return (
+                  <td
+                    key={colIdx}
+                    className="border px-2 py-1 "
+                    style={{
+                      backgroundColor: curso ? colores[curso.color - 1] : "transparent",
+                      color: curso ? "white" : "black",
+                      fontWeight: curso ? "bold" : "normal",
+                    }}
+                  >
+                    {curso ? curso.nombre : ""}
+                  </td>
                 );
-
-                const esFranjaOcupada = estudianteSeleccionado?.cursos?.some(
-                  (c) =>
-                    c.sesiones.some(
-                      (s) => s.dia === dia && s.inicio + 1 === fIdx
-                    )
-                );
-
-                if (curso) {
-                  return (
-                    <td
-                      key={`${fIdx}-${dIdx}`}
-                      rowSpan={2}
-                      className="border text-white border-black font-bold"
-                      style={{
-                        backgroundColor: colores[curso.color - 1],
-                      }}
-                    >
-                      {curso.nombre}
-                    </td>
-                  );
-                }
-
-                if (esFranjaOcupada) {
-                  return null;
-                }
-
-                return <td key={`${fIdx}-${dIdx}`} className="border-1"></td>;
               })}
             </tr>
           ))}

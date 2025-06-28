@@ -5,63 +5,37 @@ export class estudiante {
   }
 
   asignarCurso(curso) {
-    if (this.cursos.find(c => c.nombre === curso.nombre)) return;
-  
-    const dias = ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes"];
-    const franjas = Array.from({ length: 12 }, (_, i) => i);
-  
-    const sesiones = [];
-  
-    while (sesiones.length < 1) {
-      const dia = dias[Math.floor(Math.random() * dias.length)];
-      const inicio = franjas[Math.floor(Math.random() * 9 + 2)];
-  
-      let yaOcupado = false;
-  
-      for (let c of this.cursos) {
-        for (let s of c.sesiones) {
-          if ((s.dia === dia && (s.inicio === inicio || s.inicio + 1 === inicio))) {
-            yaOcupado = true;
-          }
-        }
-      }
-  
-      if (!yaOcupado) {
-        sesiones.push({ dia, inicio });
-      }
-    }
-  
-    curso.sesiones = sesiones;
-    this.cursos.push(curso);
+    if (this.cursos.find((c) => c.nombre === curso.nombre)) return;
+    this.cursos.push(curso); // ya no genera sesiones aquí
   }
-  
-  
 }
 
 class curso {
   constructor(nombre, color = 0) {
     this.nombre = nombre;
     this.color = color;
-    this.sesiones = []; // [{ dia: 'Lunes', inicio: 3 }]
+    this.sesiones = []; // { dia, inicio }
   }
 
   get getCurso() {
     return this.nombre;
   }
+
   get getColor() {
     return this.color;
   }
+
   set setColor(value) {
     this.color = value;
   }
 }
-
 
 export class Horario {
   constructor(numVertices) {
     this.h = Array.from({ length: numVertices }, () =>
       Array(numVertices).fill(0)
     );
+
     this.listaCursos = [
       "SIMULACIÓN",
       "GESTIÓN DE OPERACIONES",
@@ -72,7 +46,7 @@ export class Horario {
       "ANÁLISIS Y DISEÑO DE ALGORITMOS",
       "HCI",
       "CALCULO 100",
-      "DESARROLLO PERSONAL"
+      "DESARROLLO PERSONAL",
     ];
 
     this.cursos = Array.from(
@@ -126,5 +100,34 @@ export class Horario {
       this.cursos[i].setColor = color;
     }
     console.log(this.cursos);
+  }
+
+  asignarSesionesPorColor() {
+    const dias = ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes"];
+    const franjas = Array.from({ length: 12 }, (_, i) => i);
+    const usados = [];
+
+    const colorToSesion = {};
+
+    this.cursos.forEach((curso) => {
+      const color = curso.color;
+
+      if (!colorToSesion[color]) {
+        let asignado = false;
+        while (!asignado) {
+          const dia = dias[Math.floor(Math.random() * dias.length)];
+          const franjasValidas = franjas.filter((i) => i !== 6); 
+          const inicio = franjasValidas[Math.floor(Math.random() * franjasValidas.length)];
+          const clave = `${dia}-${inicio}`;
+
+          if (!usados.includes(clave)) {
+            colorToSesion[color] = { dia, inicio };
+            usados.push(clave);
+            asignado = true;
+          }
+        }
+      }
+      curso.sesiones = [colorToSesion[color]];
+    });
   }
 }

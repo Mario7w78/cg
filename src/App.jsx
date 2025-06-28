@@ -14,6 +14,19 @@ function App() {
   const [estudianteSeleccionado, setEstudianteSeleccionado] = useState(null);
   const [cursoSeleccionado, setCursoSeleccionado] = useState(null);
 
+  const colores = [
+    "#3B82F6",
+    "#EF4444",
+    "#10B981",
+    "#F59E0B",
+    "#8B5CF6",
+    "#F97316",
+    "#06B6D4",
+    "#84CC16",
+    "#F472B6",
+    "#6366F1",
+  ];
+
   useEffect(() => {
     if (cantidad > 0 && cantidad < 12) {
       const h = new Horario(cantidad);
@@ -24,6 +37,7 @@ function App() {
 
   const iniciarColoracion = () => {
     grafo.coloracion();
+    grafo.asignarSesionesPorColor();
     setCursos(grafo.getCursos);
   };
 
@@ -77,13 +91,8 @@ function App() {
 
     const nuevosEstudiantes = [mario, neil];
 
-    // Asignar conflictos
     grafo.asignarCursos(nuevosEstudiantes);
 
-    // Aplicar coloración
-    grafo.coloracion();
-
-    // Actualizar estado
     setListaEstudiantes(nuevosEstudiantes);
     setCursos([...grafo.getCursos]);
   };
@@ -103,11 +112,14 @@ function App() {
             <input
               name="cantidadCursos"
               type="number"
+              value={cantidad}
               min={1}
               max={10}
               onChange={(e) => setCantidad(parseInt(e.target.value))}
               className="border p-1 w-[10%] text-center"
             />
+            <button className="bg-gray-200 px-2 hover:bg-gray-300" onClick={()=>setCantidad(5)}>5</button>
+            <button className="bg-gray-200 px-2 hover:bg-gray-300" onClick={()=>setCantidad(10)}>10</button>
           </div>
 
           {grafo && (
@@ -175,7 +187,6 @@ function App() {
           )}
           {cantidad && (
             <>
-
               <button
                 className="p-1 hover:cursor-pointer bg-sky-400 mb-4 font-bold text-white rounded-2xl"
                 onClick={iniciarColoracion}
@@ -207,7 +218,26 @@ function App() {
 
       {grafo && grafo.cursos[0].color && (
         <div className="w-full flex flex-col items-center my">
-          <Matriz horario={grafo.getHorario} nombres={grafo.cursos} />
+          <div className="flex gap-4">
+            <Matriz horario={grafo.getHorario} nombres={grafo.cursos} />
+            <ul>
+              {listaEstudiantes?.map((est) => (
+                <li>
+                  {est.nombre}
+                  <ul className="list-disc">
+                    {est.cursos.map((curso) => (
+                      <li
+                        className="text-[9px] font-bold ml-4"
+                        style={{ color: colores[curso.color - 1] }}
+                      >
+                        {curso.nombre}
+                      </li>
+                    ))}
+                  </ul>
+                </li>
+              ))}
+            </ul>
+          </div>
           <Horarios listaEstudiantes={listaEstudiantes} />
         </div>
       )}
