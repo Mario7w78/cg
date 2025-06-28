@@ -5,7 +5,7 @@ import { Horario, estudiante } from "./graph/horario";
 import { Horarios } from "./components/horarios";
 
 function App() {
-  const [cantidad, setCantidad] = useState(0);
+  const [cantidad, setCantidad] = useState(1);
   const [grafo, setGrafo] = useState(null);
   const [cursos, setCursos] = useState([]);
 
@@ -96,12 +96,11 @@ function App() {
 
       <div className="flex justify-center gap-12 mb-10">
         <div className="flex flex-col">
-          <div className="flex gap-2.5 py-2 border-b-2">
+          <div className="flex gap-2.5 py-2 border-b-2 mb-3">
             <label htmlFor="cantidadCursos">
               Ingrese la Cantidad de Cursos
             </label>
             <input
-              required
               name="cantidadCursos"
               type="number"
               min={1}
@@ -174,20 +173,21 @@ function App() {
               </form>
             </>
           )}
-
-          <button
+          {cantidad && <button
             className="p-1 hover:cursor-pointer bg-sky-400 mb-4 font-bold text-white rounded-2xl"
             onClick={iniciarColoracion}
           >
             Iniciar Coloracion de grafos
-          </button>
-
-          <button
+            <button
             className="p-1 hover:cursor-pointer bg-red-400 font-bold text-white rounded-2xl"
             onClick={probarEjemplo}
           >
             Probar Ejemplo
           </button>
+          </button> }
+          
+
+          
         </div>
 
         <div className="">
