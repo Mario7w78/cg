@@ -1,13 +1,26 @@
 import { useEffect, useRef } from "react";
 import { Network } from "vis-network/peer";
 
-export function Grafo({ horario, cursos }) {
+export function Grafo({ horario, cursos, nombres }) {
   const containerRef = useRef(null);
-  const colores = ["#0000FF", "#ff0000", "#00FF00", "#ffff00", "#fe7349"];
+  const colores = [
+    "#3B82F6",
+    "#EF4444",
+    "#10B981",
+    "#F59E0B",
+    "#8B5CF6",
+    "#F97316",
+    "#06B6D4",
+    "#84CC16",
+    "#F472B6",
+    "#6366F1",
+  ];
+
+
   useEffect(() => {
     const nodes = horario.map((_, i) => ({
       id: i,
-      label: `Curso ${i}`,
+      label: nombres[i].nombre,
       color:
         cursos[i] && cursos[i].getColor
           ? colores[cursos[i].getColor - 1]
@@ -27,12 +40,12 @@ export function Grafo({ horario, cursos }) {
 
     const options = {
       layout: { hierarchical: false },
-      nodes: { shape: "dot", size: 20 },
+      nodes: { shape: "dot", size: 10 },
       edges: { color: "#000" },
     };
 
     new Network(containerRef.current, data, options);
   }, [horario, cursos]);
 
-  return <div ref={containerRef} className="w-[300px] h-[300px] border-1" />;
+  return <div ref={containerRef} className="w-[500px] h-[300px] border-1" />;
 }
