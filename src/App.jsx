@@ -173,21 +173,23 @@ function App() {
               </form>
             </>
           )}
-          {cantidad && <button
-            className="p-1 hover:cursor-pointer bg-sky-400 mb-4 font-bold text-white rounded-2xl"
-            onClick={iniciarColoracion}
-          >
-            Iniciar Coloracion de grafos
-            <button
-            className="p-1 hover:cursor-pointer bg-red-400 font-bold text-white rounded-2xl"
-            onClick={probarEjemplo}
-          >
-            Probar Ejemplo
-          </button>
-          </button> }
-          
+          {cantidad && (
+            <>
 
-          
+              <button
+                className="p-1 hover:cursor-pointer bg-sky-400 mb-4 font-bold text-white rounded-2xl"
+                onClick={iniciarColoracion}
+              >
+                Iniciar Coloracion de grafos
+              </button>
+              <button
+                className="p-1 hover:cursor-pointer bg-red-400 font-bold text-white rounded-2xl"
+                onClick={probarEjemplo}
+              >
+                Probar Ejemplo
+              </button>
+            </>
+          )}
         </div>
 
         <div className="">
