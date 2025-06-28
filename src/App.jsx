@@ -115,11 +115,28 @@ function App() {
               value={cantidad}
               min={1}
               max={10}
-              onChange={(e) => setCantidad(parseInt(e.target.value))}
+              onChange={(e) => {
+                setCantidad(parseInt(e.target.value));
+                setListaEstudiantes([]);
+              }}
               className="border p-1 w-[10%] text-center"
             />
-            <button className="bg-gray-200 px-2 hover:bg-gray-300" onClick={()=>setCantidad(5)}>5</button>
-            <button className="bg-gray-200 px-2 hover:bg-gray-300" onClick={()=>setCantidad(10)}>10</button>
+            <button
+              className="bg-gray-200 px-2 hover:bg-gray-300"
+              onClick={() => {setCantidad(5)
+                setListaEstudiantes([])
+              }}
+            >
+              5
+            </button>
+            <button
+              className="bg-gray-200 px-2 hover:bg-gray-300"
+              onClick={() => {setCantidad(10)
+                setListaEstudiantes([])
+              }}
+            >
+              10
+            </button>
           </div>
 
           {grafo && (
