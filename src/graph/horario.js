@@ -1,34 +1,5 @@
-export class estudiante {
-  constructor(nombre) {
-    this.nombre = nombre;
-    this.cursos = [];
-  }
-
-  asignarCurso(curso) {
-    if (this.cursos.find((c) => c.nombre === curso.nombre)) return;
-    this.cursos.push(curso); // ya no genera sesiones aquí
-  }
-}
-
-class curso {
-  constructor(nombre, color = 0) {
-    this.nombre = nombre;
-    this.color = color;
-    this.sesiones = []; // { dia, inicio }
-  }
-
-  get getCurso() {
-    return this.nombre;
-  }
-
-  get getColor() {
-    return this.color;
-  }
-
-  set setColor(value) {
-    this.color = value;
-  }
-}
+import { curso } from "./curso";
+import { estudiante } from "./estudiante.js"
 
 export class Horario {
   constructor(numVertices) {
