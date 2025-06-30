@@ -100,6 +100,7 @@ function App() {
         iniciarColoracion={iniciarColoracion}
         probarEjemplo={probarEjemplo}
         setCantidad={setCantidad}
+        setNuevoEstudiante = {setNuevoEstudiante}
         setListaEstudiantes={setListaEstudiantes}
         cursos={cursos}
       />

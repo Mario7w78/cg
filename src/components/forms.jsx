@@ -9,6 +9,7 @@ export const Forms = ({
   probarEjemplo,
   setCantidad,
   setListaEstudiantes,
+  setNuevoEstudiante,
   cursos
 }) => {
   return (
