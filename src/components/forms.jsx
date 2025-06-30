@@ -10,7 +10,10 @@ export const Forms = ({
   setCantidad,
   setListaEstudiantes,
   setNuevoEstudiante,
-  cursos
+  setCursoSeleccionado,
+  setEstudianteSeleccionado,
+  asignarCurso,
+  cursos,
 }) => {
   return (
     <div className="flex justify-center gap-12 mb-10">

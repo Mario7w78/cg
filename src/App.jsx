@@ -32,10 +32,11 @@ function App() {
 
   const agregarEstudiante = (e) => {
     e.preventDefault();
+    
     const yaExiste = listaEstudiantes.some(
       (e) => e.nombre.toLowerCase() === nuevoEstudiante.toLowerCase()
     );
-    if (!yaExiste) {
+    if (!yaExiste && nuevoEstudiante !== "") {
       const nuevo = new estudiante(nuevoEstudiante);
       setListaEstudiantes([...listaEstudiantes, nuevo]);
     }
@@ -103,6 +104,9 @@ function App() {
         setNuevoEstudiante = {setNuevoEstudiante}
         setListaEstudiantes={setListaEstudiantes}
         cursos={cursos}
+        setCursoSeleccionado={setCursoSeleccionado}
+        setEstudianteSeleccionado = {setEstudianteSeleccionado}
+        asignarCurso = {asignarCurso}
       />
 
       {grafo && grafo.cursos[0].color && (
